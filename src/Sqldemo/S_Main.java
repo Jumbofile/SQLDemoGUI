@@ -1,16 +1,16 @@
-package server;
+package Sqldemo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import org.mindrot.jbcrypt.BCrypt;
 import Sqldemo.SQLDemo;
 
 public class S_Main {
@@ -31,7 +31,7 @@ public class S_Main {
 		JScrollPane scroll = new JScrollPane (consoleWin);
 		JScrollPane scroll2 = new JScrollPane (sqlTextBox);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 574);
+		frame.setSize(800, 604);
 		frame.setResizable(false);
 
 		consoleWin.setEditable(false);
@@ -45,6 +45,10 @@ public class S_Main {
 		scroll2.setBounds(10,432,775,104);
 		frame.getContentPane().add(scroll);
 		frame.getContentPane().add(scroll2);
+		
+		JButton button = new JButton();
+		button.setBounds(10, 538, 100, 30);
+		button.setText("Submit");
 
 		
 		//is enter hit
@@ -58,34 +62,24 @@ public class S_Main {
 			@Override
             public void actionPerformed(ActionEvent e)
             {
-                /*consoleWin.append(consoleBox.getText() + "\n");
+				String statement = sqlTextBox.getText();
+				try {
+					Sqldemo.SQLDemo.accessDemo(statement);
+				}catch(Exception e1){
+					consoleWin.append("Invalid statement \n");
+				}
                 
-              
+				//consoleWin.append(statement);
+                sqlTextBox.setText("");
                 
-                //Help command "/help"
-                if(consoleBox.getText().toLowerCase().startsWith("/help")) {
-                	consoleWin.append("Use SQLite");
-                }
-
-                //sql commands: /sql getdb:dbname
-                if(consoleBox.getText().toLowerCase().startsWith("/sql")) {
-                	//while(!consoleBox.getText().equals("quit")){
-                		//SQLDemo demo = new SQLDemo();
-					String statement = consoleBox.getText().substring(consoleBox.getText().indexOf(' '));
-						try {
-							Sqldemo.SQLDemo.accessDemo(statement);
-						}catch(Exception e1){
-							consoleWin.append("Invalid statement \n");
-						}
-                }
-                consoleBox.setText("");
-                */
-            }
+        	} 
         };
         
+        
         //jframe stuff
-        //consoleBox.addActionListener( action );
+        button.addActionListener( action );
 		//frame.getContentPane().add(sqlTextBox);
+        frame.getContentPane().add(button);
 		frame.getContentPane().add(panel);
 		frame.setVisible(true);
 		

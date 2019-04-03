@@ -17,7 +17,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import server.S_Main;
 
 /**
  * An interactive query tool for SQLite.
@@ -40,29 +39,15 @@ public class SQLDemo {
 		"----------------------------------------------------" +
 		"----------------------------------------------------";
 
-	/*public static void main(String[] args) throws ClassNotFoundException, IOException {
-		Connection conn = null;
-		try {
-			Class.forName("org.h2.Driver");
-			conn = DriverManager.getConnection("jdbc:h2:./belres.db;create=true");
-			conn.setAutoCommit(true);
 	
-			//queryLoop(conn);
-		} catch (SQLException e) {
-			System.out.println("Error: " + e.getMessage());
-		} finally {
-			DBUtil.closeQuietly(conn);
-		}
-}*/
-
 	public static void accessDemo(String stmnt) throws ClassNotFoundException, IOException{
 		Connection conn = null;
 		if(stmnt.equals("quit")){
 			DBUtil.closeQuietly(conn);
 		}else {
 			try {
-				Class.forName("org.h2.Driver");
-				conn = DriverManager.getConnection("jdbc:h2:./belres.db;create=true");
+				Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+				conn = DriverManager.getConnection("jdbc:derby:test.db;create=true");
 				conn.setAutoCommit(true);
 
 				queryLoop(conn, stmnt);
@@ -101,9 +86,9 @@ public class SQLDemo {
 					try {
 						importCSV(conn, tableName, csvFile);
 					} catch (IOException e) {
-						main.consoleWin.append("Error: " + e.getMessage() + "\n");
+						S_Main.consoleWin.append("Error: " + e.getMessage() + "\n");
 					} catch (SQLException e) {
-						main.consoleWin.append("Error: " + e.getMessage() + "\n");
+						S_Main.consoleWin.append("Error: " + e.getMessage() + "\n");
 					}
 				} else {
 					try {
@@ -111,7 +96,7 @@ public class SQLDemo {
 //						System.out.println(sql);
 						executeSQL(conn, sql);
 					} catch (SQLException e) {
-						main.consoleWin.append("Error: " + e.getMessage() + "\n");
+						S_Main.consoleWin.append("Error: " + e.getMessage() + "\n");
 					}
 				}
 			}
@@ -147,7 +132,7 @@ public class SQLDemo {
 					printRow(row, colWidths);
 				}
 			}
-			main.consoleWin.append("OK (" + rowCount + " rows(s)) \n");
+			S_Main.consoleWin.append("OK (" + rowCount + " rows(s)) \n");
 		} finally {
 			DBUtil.closeQuietly(resultSet);
 			DBUtil.closeQuietly(stmt);
@@ -157,13 +142,13 @@ public class SQLDemo {
 	private static void printRow(List<String> row, List<Integer> colWidths) {
 		for (int i = 0; i < row.size(); i++) {
 			if (i > 0) {
-				main.consoleWin.append(" ");
+				S_Main.consoleWin.append(" ");
 			}
 			String item = row.get(i);
-			main.consoleWin.append(PAD.substring(0, colWidths.get(i) - item.length()));
-			main.consoleWin.append(item);
+			S_Main.consoleWin.append(PAD.substring(0, colWidths.get(i) - item.length()));
+			S_Main.consoleWin.append(item);
 		}
-		main.consoleWin.append("\n");
+		S_Main.consoleWin.append("\n");
 	}
 
 	private static void printSeparator(List<Integer> colWidths) {
@@ -249,7 +234,7 @@ public class SQLDemo {
 // DJH2: and then substituted into the 'insert' statement
 // DJH2-3-12-17: Added 'published' as an attribute of books table
 // DJH2-3-12-17: changed attributes to 'lastname' and 'firstname' for authors table
-				main.consoleWin.append("Importing data for table: <" + tableName + "> \n");
+				S_Main.consoleWin.append("Importing data for table: <" + tableName + "> \n");
 				if (tableName.toLowerCase().equals("books"))
 				{
 					buf.append("insert into " + tableName + " (author_id, title, isbn, published) values (");
@@ -289,6 +274,6 @@ public class SQLDemo {
 		stmt.executeBatch();
 		conn.setAutoCommit(true);
 
-		main.consoleWin.append("Successful import \n");
+		S_Main.consoleWin.append("Successful import \n");
 	}
 }
