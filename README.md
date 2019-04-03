@@ -19,4 +19,4 @@ DONT ADD SEMI-COLONS
 -Click submit when ready
 
 
-https://i.imgur.com/d7l3w8X.png
+![alt text](https://i.imgur.com/d7l3w8X.png)
