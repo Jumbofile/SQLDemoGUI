@@ -12,3 +12,6 @@
 DONT ADD SEMI-COLONS
 -Type sql command in lower box
 -Click submit when ready
+
+
+https://i.imgur.com/d7l3w8X.png
