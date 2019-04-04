@@ -2,7 +2,11 @@ package Sqldemo;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -17,13 +21,15 @@ public class S_Main {
 	
 	public static JTextArea consoleWin = new JTextArea();
 	public static boolean sqlOn = false;
+	private static ArrayList<String> history = new ArrayList<String>();
+	private static int index = 0;
 	
 	public static void main(String[] args) {
 		//Initialize the server
 		//S_Database db = new S_Database();
-		    
+		
 		//Start server gui
-		JFrame frame = new JFrame("Belres Server");
+		JFrame frame = new JFrame("SQLDemo");
 		//JTextField consoleBox = new JTextField();
 		JTextArea sqlTextBox = new JTextArea();
 		JPanel panel = new JPanel();
@@ -63,18 +69,59 @@ public class S_Main {
             public void actionPerformed(ActionEvent e)
             {
 				String statement = sqlTextBox.getText();
+				history.add(statement);
 				try {
 					Sqldemo.SQLDemo.accessDemo(statement);
 				}catch(Exception e1){
 					consoleWin.append("Invalid statement \n");
 				}
-                
+                index++;
 				//consoleWin.append(statement);
                 sqlTextBox.setText("");
                 
         	} 
         };
         
+        frame.addKeyListener(new KeyListener() {
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+            	switch( e.getKeyCode()) { 
+	                case KeyEvent.VK_UP:
+	                	if(index> -1) {
+		                    sqlTextBox.setText(history.get(index));
+		                    index--;
+	                	}
+	                    break;
+	                case KeyEvent.VK_DOWN:
+	                	if(index < history.size()) {
+		                    sqlTextBox.setText(history.get(index));
+		                    index++;
+	                	}
+	                    break;
+	                case KeyEvent.VK_LEFT:
+	                    // handle left
+	                    break;
+	                case KeyEvent.VK_RIGHT :
+	                    // handle right
+	                    break;
+	             }
+            }
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+            
+        });
         
         //jframe stuff
         button.addActionListener( action );
