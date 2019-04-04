@@ -37,18 +37,18 @@ public class S_Main {
 		JScrollPane scroll = new JScrollPane (consoleWin);
 		JScrollPane scroll2 = new JScrollPane (sqlTextBox);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(800, 604);
+		frame.setSize(900, 604);
 		frame.setResizable(false);
 
 		consoleWin.setEditable(false);
 		consoleWin.setFont(new Font("Consolas", Font.PLAIN, 12));  // make a new font object);
-		scroll.setBounds(10,10,775,420);
+		scroll.setBounds(10,10,875,420);
 		consoleWin.setLineWrap(true);
 		sqlTextBox.setFont(new Font("Consolas", Font.PLAIN, 12));
 		//consoleBox.setBackground(Color.BLUE);
 		sqlTextBox.setLineWrap(true);
 		//sqlTextBox.setBounds(10,432,775,104);
-		scroll2.setBounds(10,432,775,104);
+		scroll2.setBounds(10,432,875,104);
 		frame.getContentPane().add(scroll);
 		frame.getContentPane().add(scroll2);
 		
@@ -88,6 +88,7 @@ public class S_Main {
             public void keyPressed(KeyEvent e) {
             	switch( e.getKeyCode()) { 
 	                case KeyEvent.VK_UP:
+	                	System.out.println("YEET");
 	                	if(index> -1) {
 		                    sqlTextBox.setText(history.get(index));
 		                    index--;
