@@ -22,7 +22,7 @@ public class S_Main {
 	public static JTextArea consoleWin = new JTextArea();
 	public static boolean sqlOn = false;
 	private static ArrayList<String> history = new ArrayList<String>();
-	private static int index = 0;
+	private static int index = -1;
 	
 	public static void main(String[] args) {
 		//Initialize the server
@@ -75,53 +75,55 @@ public class S_Main {
 				}catch(Exception e1){
 					consoleWin.append("Invalid statement \n");
 				}
-                index++;
+                index = history.size() - 1;
 				//consoleWin.append(statement);
                 sqlTextBox.setText("");
                 
         	} 
         };
         
-        frame.addKeyListener(new KeyListener() {
-            
-            @Override
+        sqlTextBox.addKeyListener(new KeyListener() {            
+        	@Override
             public void keyPressed(KeyEvent e) {
-            	switch( e.getKeyCode()) { 
-	                case KeyEvent.VK_UP:
-	                	System.out.println("YEET");
-	                	if(index> -1) {
-		                    sqlTextBox.setText(history.get(index));
-		                    index--;
-	                	}
-	                    break;
-	                case KeyEvent.VK_DOWN:
-	                	if(index < history.size()) {
-		                    sqlTextBox.setText(history.get(index));
-		                    index++;
-	                	}
-	                    break;
-	                case KeyEvent.VK_LEFT:
-	                    // handle left
-	                    break;
-	                case KeyEvent.VK_RIGHT :
-	                    // handle right
-	                    break;
-	             }
+        		if(index == -1) {
+        			index = 0;
+        		}
+        		if(index == history.size()) {
+        			index--;
+        		}
+                System.out.println("test");
+                switch( e.getKeyCode()) { 
+                case KeyEvent.VK_UP:
+                	System.out.println(index);
+                	if(index> -1) {
+	                    sqlTextBox.setText(history.get(index));
+	                    index--;
+                	}
+                    break;
+                case KeyEvent.VK_DOWN:
+                	if(index < history.size()) {
+                		System.out.println(index);
+	                    sqlTextBox.setText(history.get(index));
+	                    index++;
+	                    
+                	}
+                    break;
+             }
+
             }
 
+            @Override
+            public void keyReleased(KeyEvent e) {
+                // TODO Auto-generated method stub      
+            }
+
+
+
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyTyped(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 				
 			}
-
-			@Override
-			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-            
         });
         
         //jframe stuff
@@ -132,7 +134,5 @@ public class S_Main {
 		frame.setVisible(true);
 		
     }
-	
-	
 }
 
